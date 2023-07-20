@@ -1,0 +1,9 @@
+POST http://localhost:4004/browse/Holes
+Content-Type: application/json
+
+{
+    "ID":"58313bf0-b7d8-4ef4-b4fc-bfb9e357c905",
+    "holeNumber":1, 
+    "score":3,
+    "par":4
+}
