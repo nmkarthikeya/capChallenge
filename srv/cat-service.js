@@ -1,51 +1,59 @@
 const cds = require('@sap/cds');
+console.log("service.js");
 
 module.exports = class CatalogService extends cds.ApplicationService {
     init() {
+        console.log("init");
+        this.before('CREATE', 'Holes', async function (req) {
+            console.log("before create");
+            var res;
 
-    this.before('CREATE', 'Holes', async function (req) {
-        
-        var res;
+            if (req.data.scrore === '1') {
 
-        if (req.data.scrore === '1') {
+                req.data.result = "hole in one";
 
-            req.data.result = "hole in one";
+            } else {
+                
+                console.log("score" + req.data.score);
 
-        } else {
+                res = req.data.score - req.data.par;
 
-            res = req.data.score - req.data.par;
+                console.log("res" + res);
 
-            switch (res) {
-                case '-3':
-                    req.data.result = "albatross";
-                    break;
-                case '-2':
-                    req.data.result = "eagle";
-                    break;
-                case '-1':
-                    req.data.result = "birdie";
-                    break;
-                case '0':
-                    req.data.result = "par";
-                    break;
-                case '1':
-                    req.data.result = "bogey";
-                    break;
-                case '2':
-                    req.data.result = "double bogey";
-                    break;
-                case '3':
-                    req.data.result = "triple bogey";
-                    break;
-                default:
-                    break;
+                switch (res) {
+                    case -3:
+                        req.data.result = "albatross";
+                        break;
+                    case -2:
+                        req.data.result = "eagle";
+                        break;
+                    case -1:
+                        req.data.result = "birdie";
+                        break;
+                    case 0:
+                        req.data.result = "par";
+                        console.log("result" + req.data.result);
+                        break;
+                    case 1:
+                        req.data.result = "bogey";
+                        break;
+                    case 2:
+                        req.data.result = "double bogey";
+                        break;
+                    case 3:
+                        req.data.result = "triple bogey";
+                        break;
+                    default:
+                        break;
+                }
+
             }
 
-        }
 
+        })
 
-    })
+        return super.init()
 
     }
-    
+
 }

@@ -13,8 +13,8 @@ entity Holes : cuid {
       holeNumber: Integer @assert.range: [1,20];
       score : Integer;
       par   : Integer;
-      round : Association to one Rounds;
-      shot : Composition of many Shots;
+      // round : Association to one Rounds;
+      // shot : Composition of many Shots;
       result: String;
 
 }
