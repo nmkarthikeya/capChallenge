@@ -2,9 +2,20 @@ const cds = require('@sap/cds');
 console.log("service.js");
 
 module.exports = class CatalogService extends cds.ApplicationService {
-    init() {
+
+    async init() {
+
+        const remote = await cds.connect.to('RemoteService')
+        this.on('*', 'Players', (req) => {
+            console.log('>> delegating to remote service...')
+            return remote.run(req.query)
+        })
+
+ 
         console.log("init");
+
         this.before('CREATE', 'Holes', async function (req) {
+
             console.log("before create");
             var res;
 
@@ -13,7 +24,7 @@ module.exports = class CatalogService extends cds.ApplicationService {
                 req.data.result = "hole in one";
 
             } else {
-                
+
                 console.log("score" + req.data.score);
 
                 res = req.data.score - req.data.par;
@@ -50,10 +61,14 @@ module.exports = class CatalogService extends cds.ApplicationService {
             }
 
 
+
         })
+
+
 
         return super.init()
 
     }
 
 }
+
